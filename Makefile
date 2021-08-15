@@ -9,4 +9,6 @@ test-alpine:
 	IMAGE_TAG="${IMAGE_TAG}" docker-compose -f ./docker-compose.test.yml up --exit-code-from sut --abort-on-container-exit
 
 push:
+	@echo "Pushing to ${IMAGE_TAG} in 2sec"
+	@sleep 2
 	docker push "${IMAGE_TAG}"
