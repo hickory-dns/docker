@@ -24,7 +24,7 @@ endif
 
 build-alpine:
 	@echo "Build arguments: ${BUILD_ARGS}"
-	docker build -f ./alpine/Dockerfile ./alpine -t "${IMAGE_TAG}" ${BUILD_ARGS} --build-arg BUILD_DATE="$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")"
+	docker build --pull -f ./alpine/Dockerfile ./alpine -t "${IMAGE_TAG}" ${BUILD_ARGS} --build-arg BUILD_DATE="$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")"
 
 test-alpine:
 	IMAGE_TAG="${IMAGE_TAG}" docker-compose -f ./docker-compose.test.yml up --exit-code-from sut --abort-on-container-exit
