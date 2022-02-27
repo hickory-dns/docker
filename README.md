@@ -5,7 +5,14 @@
 
 # Trust-DNS in Docker
 
-This is the trust-dns Docker image
+This is the [trust-dns](https://github.com/bluejekyll/trust-dns#readme) Docker image
+
+## Enabled [features](https://github.com/bluejekyll/trust-dns/#using-as-a-dependency-and-custom-features) in the image
+
+- `dns-over-https-rustls` (disabled due to https://github.com/bluejekyll/trust-dns/issues/1647)
+- `dnssec-ring`
+- `dnssec`
+- `mdns`
 
 ## Example use in docker-compose
 
@@ -23,7 +30,9 @@ services:
             - "53:53/udp"
 ```
 
-## Build a pull-request
+### Contributing
+
+#### Build a pull-request or your work
 
 - Edit and run
 
@@ -37,7 +46,7 @@ services:
 
 To use wget, replace `curl -Ls "${SOURCE_FILE}" -o -` by `wget "${SOURCE_FILE}" -O -`
 
-### Push the result
+#### Push the result to your repository
 
 ```sh
 IMAGE_TAG="botsudo/trust-dns:ns-trial" make push
