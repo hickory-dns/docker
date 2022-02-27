@@ -17,7 +17,7 @@ RUN \
 
 RUN apk add --no-cache --update musl-dev openssl-dev pkgconfig
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
-RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features dns-over-https-rustls,dnssec-ring,dnssec,mdns
+RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features dnssec-ring,dnssec,mdns
 
 FROM alpine:3.14 as runtime
 
