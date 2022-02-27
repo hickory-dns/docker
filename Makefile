@@ -5,6 +5,7 @@ BUILD_ARGS ?=
 VERSION ?=
 SOURCE_FILE ?=
 SOURCE_SHA256 ?=
+FEATURES ?=
 
 ifeq ($(origin VERSION),environment)
 	BUILD_ARGS += --build-arg VERSION='${VERSION}'
@@ -16,6 +17,10 @@ endif
 
 ifeq ($(origin SOURCE_SHA256),environment)
 	BUILD_ARGS += --build-arg SOURCE_SHA256='${SOURCE_SHA256}'
+endif
+
+ifeq ($(origin FEATURES),environment)
+	BUILD_ARGS += --build-arg FEATURES='${FEATURES}'
 endif
 
 ## -- end

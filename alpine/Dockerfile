@@ -5,6 +5,7 @@ ARG VERSION="0.21.0"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
 # wget https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
 ARG SOURCE_SHA256="6eb89a52e1a5cdb11c57f51c3f1c277d78dfde0fb267fe346afb23f989ab39f3"
+ARG FEATURES="dnssec-ring,dnssec,mdns,resolver,sqlite,backtrace"
 
 WORKDIR /workspace
 RUN \
@@ -17,7 +18,7 @@ RUN \
 
 RUN apk add --no-cache --update musl-dev openssl-dev pkgconfig
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
-RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features dnssec-ring,dnssec,mdns
+RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features $FEATURES
 
 FROM alpine:3.14 as runtime
 
