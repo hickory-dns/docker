@@ -13,6 +13,10 @@ This is the [trust-dns](https://github.com/bluejekyll/trust-dns#readme) Docker i
 - `dnssec-ring`
 - `dnssec`
 - `mdns`
+- `resolver`
+- `sqlite`
+- `backtrace`
+- `dns-over-https` (disabled due to https://github.com/bluejekyll/trust-dns/issues/1648)
 
 ## Example use in docker-compose
 
@@ -33,6 +37,8 @@ services:
 ### Contributing
 
 #### Build a pull-request or your work
+
+You can add the argument `FEATURES=` to define the list of enabled features
 
 - Edit and run
 
