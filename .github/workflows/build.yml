@@ -1,9 +1,10 @@
-name: Build docker image
+name: Build and test the docker image
 
 on: [push]
 
 jobs:
-    build-action:
+    build-docker-image:
+        name: Build and test image
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
