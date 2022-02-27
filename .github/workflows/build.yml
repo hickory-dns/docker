@@ -1,0 +1,14 @@
+name: Build docker image
+
+on: [push]
+
+jobs:
+    build-action:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+            - name: Build docker image
+              run: make build-alpine
+            - name: Test docker image
+              run: make test-alpine
