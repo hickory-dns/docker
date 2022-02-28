@@ -9,14 +9,15 @@ This is the [trust-dns](https://github.com/bluejekyll/trust-dns#readme) Docker i
 
 ## Enabled [features](https://github.com/bluejekyll/trust-dns/#using-as-a-dependency-and-custom-features) in the image
 
+- `dns-over-https`
 - `dns-over-https-rustls`
+- `dnssec-openssl`
 - `dnssec-ring`
 - `dnssec`
 - `mdns`
 - `resolver`
 - `sqlite`
 - `backtrace`
-- `dns-over-https` (disabled due to https://github.com/bluejekyll/trust-dns/issues/1648)
 
 ## Example use in docker-compose
 
