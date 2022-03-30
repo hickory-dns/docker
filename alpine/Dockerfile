@@ -1,10 +1,10 @@
 # Rust version in sync with (https://github.com/bluejekyll/trust-dns/commit/550e8f8be33df267b5c8e47586024cf17c3407f0)
 FROM rust:1.59-alpine3.14 as build-env
 
-ARG VERSION="0.21.1"
+ARG VERSION="0.21.2"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
 # wget https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
-ARG SOURCE_SHA256="dd6f8d42bf9c488a29bd9588c689029b8140b1072533640bfa57f61703bd2c23"
+ARG SOURCE_SHA256="4343cb28e805a862b93885f33b9ac52a40802dd594f0ccb81979f3874104ee3d"
 ARG FEATURES="dnssec-openssl,dns-over-https,dns-over-https-rustls,dnssec-ring,dnssec,resolver,sqlite,backtrace"
 
 WORKDIR /workspace
@@ -22,10 +22,10 @@ RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default
 
 FROM alpine:3.14 as runtime
 
-ARG VERSION="0.21.1"
+ARG VERSION="0.21.2"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
 # wget https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
-ARG SOURCE_SHA256="dd6f8d42bf9c488a29bd9588c689029b8140b1072533640bfa57f61703bd2c23"
+ARG SOURCE_SHA256="4343cb28e805a862b93885f33b9ac52a40802dd594f0ccb81979f3874104ee3d"
 
 ARG BUILD_DATE
 
