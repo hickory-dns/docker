@@ -14,7 +14,6 @@ This is the [trust-dns](https://github.com/bluejekyll/trust-dns#readme) Docker i
 - `dnssec-openssl`
 - `dnssec-ring`
 - `dnssec`
-- `mdns`
 - `resolver`
 - `sqlite`
 - `backtrace`

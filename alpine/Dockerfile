@@ -5,7 +5,7 @@ ARG VERSION="0.21.1"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
 # wget https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
 ARG SOURCE_SHA256="dd6f8d42bf9c488a29bd9588c689029b8140b1072533640bfa57f61703bd2c23"
-ARG FEATURES="dnssec-openssl,dns-over-https,dns-over-https-rustls,dnssec-ring,dnssec,mdns,resolver,sqlite,backtrace"
+ARG FEATURES="dnssec-openssl,dns-over-https,dns-over-https-rustls,dnssec-ring,dnssec,resolver,sqlite,backtrace"
 
 WORKDIR /workspace
 RUN \
