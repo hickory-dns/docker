@@ -1,5 +1,8 @@
 name: Build and test the docker image
 
+permissions:
+  contents: read
+
 on: [push]
 
 jobs:
