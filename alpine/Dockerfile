@@ -1,5 +1,5 @@
-# Rust version in sync with (https://github.com/bluejekyll/trust-dns/commit/550e8f8be33df267b5c8e47586024cf17c3407f0)
-FROM rust:1.59-alpine3.14 as build-env
+# Rust version in sync with (https://github.com/bluejekyll/trust-dns/pull/1771)
+FROM rust:1.59-alpine3.15 as build-env
 
 ARG VERSION="0.21.2"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
@@ -20,7 +20,7 @@ RUN apk add --no-cache --update musl-dev openssl-dev pkgconfig
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
 RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features $FEATURES
 
-FROM alpine:3.14 as runtime
+FROM alpine:3.15 as runtime
 
 ARG VERSION="0.21.2"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
