@@ -3,7 +3,7 @@ version: "3.3"
 services:
     # Docker hub auto test service name
     sut:
-        image: alpine:3.14
+        image: alpine:3.16
         dns:
           - 1.1.1.1
           - 1.0.0.1
