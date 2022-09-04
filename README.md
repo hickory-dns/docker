@@ -25,7 +25,7 @@ version: "2"
 
 services:
     dns-server:
-        image: botsudo/trust-dns:ns-trial
+        image: trustdns/trust-dns:latest
         volumes:
           - ./config/dns/named.toml:/etc/named.toml:ro
           - ./config/dns/ipv6_block.zone:/var/named/ipv6_block.zone:ro
@@ -43,7 +43,7 @@ You can add the argument `FEATURES=` to define the list of enabled features
 - Edit and run
 
     ```sh
-    IMAGE_TAG="botsudo/trust-dns:ns-trial" \
+    IMAGE_TAG="yourUsername/trust-dns:ns-trial" \
     VERSION="0.20.x-dev" \
     SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/heads/stop-returning-ns-on-auth-response.tar.gz" \
     SOURCE_SHA256="$(curl -Ls "${SOURCE_FILE}" -o - | sha256sum | cut -d ' ' -f 1)" \
@@ -55,5 +55,5 @@ To use wget, replace `curl -Ls "${SOURCE_FILE}" -o -` by `wget "${SOURCE_FILE}" 
 #### Push the result to your repository
 
 ```sh
-IMAGE_TAG="botsudo/trust-dns:ns-trial" make push
+IMAGE_TAG="yourUsername/trust-dns:ns-trial" make push
 ```
