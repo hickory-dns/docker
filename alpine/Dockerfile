@@ -4,7 +4,7 @@ FROM rust:1.59-alpine3.15 as build-env
 ARG VERSION="0.22.1"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
 # wget https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
-ARG SOURCE_SHA256="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+ARG SOURCE_SHA256="48debc51079b43a942f05f51dfd6d7ea900ed21f6db72e3136f100cb35263a15"
 ARG FEATURES="dnssec-openssl,dns-over-https,dns-over-https-rustls,dnssec-ring,dnssec,resolver,sqlite,backtrace"
 
 WORKDIR /workspace
@@ -25,7 +25,7 @@ FROM alpine:3.15 as runtime
 ARG VERSION="0.22.1"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
 # wget https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
-ARG SOURCE_SHA256="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+ARG SOURCE_SHA256="48debc51079b43a942f05f51dfd6d7ea900ed21f6db72e3136f100cb35263a15"
 
 ARG BUILD_DATE
 
