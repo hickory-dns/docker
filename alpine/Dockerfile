@@ -40,7 +40,22 @@ LABEL org.label-schema.vendor="trust-dns" \
     org.label-schema.vcs-sha256=${SOURCE_SHA256} \
     # org.label-schema.vcs-ref=${VCS_REF} \
     org.label-schema.build-date=${BUILD_DATE} \
-    org.label-schema.docker.schema-version="1.0"
+    org.label-schema.docker.schema-version="1.0" \
+    \
+    com.docker.extension.publisher-url="https://github.com/trust-dns" \
+    \
+    org.opencontainers.image.title="Docker trust-dns DNS server" \
+    org.opencontainers.image.description="trust-dns DNS server" \
+    org.opencontainers.image.authors="benjaminfry@me.com" \
+    org.opencontainers.image.url="https://github.com/bluejekyll/trust-dns#readme" \
+    org.opencontainers.image.documentation="https://github.com/bluejekyll/trust-dns#readme" \
+    org.opencontainers.image.source="https://github.com/bluejekyll/trust-dns" \
+    org.opencontainers.image.vendor="trust-dns" \
+    org.opencontainers.image.licenses="MIT or Apache-2.0" \
+    org.opencontainers.image.created=${BUILD_DATE} \
+    org.opencontainers.image.version=${VERSION} \
+    # org.opencontainers.image.revision=${VCS_REF} \
+    org.opencontainers.image.ref.name="${VERSION}"
 
 # https://github.com/mischov/meeseeks/issues/98#issuecomment-636615680
 RUN apk add --no-cache --update openssl libgcc
