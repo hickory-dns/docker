@@ -22,7 +22,7 @@ RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default
 
 FROM alpine:3.15 as runtime
 
-ARG VERSION="0.22.0"
+ARG VERSION="0.22.1"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
 # wget https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
 ARG SOURCE_SHA256="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
