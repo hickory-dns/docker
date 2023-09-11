@@ -1,5 +1,5 @@
 # Rust version in sync with (https://github.com/bluejekyll/trust-dns/pull/1771)
-FROM rust:1.59-alpine3.15 as build-env
+FROM rust:1.64-alpine3.15 as build-env
 
 ARG VERSION="0.23.0"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
