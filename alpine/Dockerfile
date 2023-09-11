@@ -61,6 +61,6 @@ LABEL org.label-schema.vendor="trust-dns" \
 RUN apk add --no-cache --update openssl libgcc
 COPY --from=build-env /workspace/target/release/trust-dns /usr/bin
 # Quickly test the binary is "working" and has no linked libs errors
-RUN named --version
+RUN trust-dns --version
 
 ENTRYPOINT [ "trust-dns" ]
