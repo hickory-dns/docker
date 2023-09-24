@@ -1,5 +1,5 @@
-# Rust version in sync with (https://github.com/bluejekyll/trust-dns/pull/1771)
-FROM rust:1.64-alpine3.18 as build-env
+# Minimum Rust version: https://github.com/bluejekyll/trust-dns/blob/main/Cargo.toml "rust-version"
+FROM rust:alpine3.18 as build-env
 
 ARG VERSION="0.23.0"
 ARG SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/tags/v${VERSION}.tar.gz"
@@ -16,7 +16,7 @@ RUN \
     tar --strip-components=1 --directory /workspace -xzvf /tmp/trust-dns.tar.gz; \
     rm /tmp/trust-dns.tar.gz;
 
-RUN apk add --no-cache --update musl-dev openssl-dev pkgconfig
+RUN apk add --no-cache --update rust musl-dev openssl-dev pkgconfig
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
 RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features $FEATURES
 
