@@ -1,7 +1,7 @@
 name: Build and test the docker image
 
 permissions:
-  contents: read
+    contents: read
 
 on: [push]
 
@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
             - name: Build docker image
               run: make build-alpine
             - name: Test docker image

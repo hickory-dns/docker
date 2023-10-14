@@ -1,13 +1,13 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE-MIT)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](LICENSE-APACHE)
 
-![Trust-DNS](logo.svg)
+![hickory-DNS](logo.png)
 
-# Trust-DNS in Docker
+# hickory-DNS in Docker
 
-This is the [trust-dns](https://github.com/bluejekyll/trust-dns#readme) Docker image
+This is the [hickory-dns](https://github.com/hickory-dns/hickory-dns#readme) Docker image
 
-## Enabled [features](https://github.com/bluejekyll/trust-dns/#using-as-a-dependency-and-custom-features) in the image
+## Enabled [features](https://github.com/hickory-dns/hickory-dns/#using-as-a-dependency-and-custom-features) in the image
 
 - `dns-over-https`
 - `dns-over-https-rustls`
@@ -25,7 +25,7 @@ version: "2"
 
 services:
     dns-server:
-        image: trustdns/trust-dns:latest
+        image: docker.io/hickorydns/hickory-dns:latest
         volumes:
           - ./config/dns/named.toml:/etc/named.toml:ro
           - ./config/dns/ipv6_block.zone:/var/named/ipv6_block.zone:ro
@@ -43,9 +43,9 @@ You can add the argument `FEATURES=` to define the list of enabled features
 - Edit and run
 
     ```sh
-    IMAGE_TAG="yourUsername/trust-dns:ns-trial" \
+    IMAGE_TAG="yourUsername/hickory-dns:ns-trial" \
     VERSION="0.20.x-dev" \
-    SOURCE_FILE="https://github.com/bluejekyll/trust-dns/archive/refs/heads/stop-returning-ns-on-auth-response.tar.gz" \
+    SOURCE_FILE="https://github.com/hickory-dns/hickory-dns/archive/refs/heads/stop-returning-ns-on-auth-response.tar.gz" \
     SOURCE_SHA256="$(curl -Ls "${SOURCE_FILE}" -o - | sha256sum | cut -d ' ' -f 1)" \
     make build-alpine
     ```
@@ -55,5 +55,5 @@ To use wget, replace `curl -Ls "${SOURCE_FILE}" -o -` by `wget "${SOURCE_FILE}" 
 #### Push the result to your repository
 
 ```sh
-IMAGE_TAG="yourUsername/trust-dns:ns-trial" make push
+IMAGE_TAG="yourUsername/hickory-dns:ns-trial" make push
 ```

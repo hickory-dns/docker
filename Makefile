@@ -1,4 +1,4 @@
-IMAGE_TAG ?= trustdns/trust-dns:latest
+IMAGE_TAG ?= hickorydns/hickory-dns:latest
 BUILD_ARGS ?=
 
 ## -- helpers for ENVs possibly used in BUILD_ARGS (manual builds), see README

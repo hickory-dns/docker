@@ -26,7 +26,7 @@ echo 'Testing server'
 testQuery 'non-existing-name' 0
 # Server uses Internet to answer
 testQuery 'google.com'
-testQuery 'trust-dns.org'
+testQuery 'hickory-dns.org'
 # A query that only the server can answer
 testQuery 'test-domain.custom'
 testQuery 'dns-server.custom'

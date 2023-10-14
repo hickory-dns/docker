@@ -12,7 +12,7 @@ services:
           - ./tests:/tests:ro
         working_dir: /tests
     dns-server:
-        image: ${IMAGE_TAG:-trust-dns}
+        image: ${IMAGE_TAG:-hickory-dns}
         volumes:
           - ./tests/named.toml:/etc/named.toml:ro
           - ./tests/custom.zone:/var/named/custom.zone:ro
