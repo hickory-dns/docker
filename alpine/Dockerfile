@@ -7,6 +7,10 @@ ARG SOURCE_SHA256="e5158a8e412876768fc3d171ef4b2c3e0d4e99c1a1d082018b93bcda9fb31
 
 FROM rust:alpine3.18 as build-env
 
+ARG VERSION
+ARG SOURCE_FILE
+ARG SOURCE_SHA256
+
 ARG FEATURES="dnssec-openssl,dns-over-https,dns-over-https-rustls,dnssec-ring,dnssec,resolver,sqlite,backtrace"
 
 WORKDIR /workspace
@@ -24,6 +28,9 @@ RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default
 
 FROM alpine:3.18 as runtime
 
+ARG VERSION
+ARG SOURCE_FILE
+ARG SOURCE_SHA256
 ARG BUILD_DATE
 
 # Metadata
