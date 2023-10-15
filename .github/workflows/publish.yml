@@ -9,8 +9,11 @@ on:
         types: [published]
 
 jobs:
-    push_to_registry:
-        name: Push Docker image to Docker Hub
+    publish-docker-image:
+        environment:
+            name: "docker-hub"
+            url: https://hub.docker.com/r/hickorydns/hickory-dns
+        name: Build and test image and publish the image
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
