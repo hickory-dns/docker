@@ -5,7 +5,7 @@ ARG SOURCE_FILE="https://github.com/hickory-dns/hickory-dns/archive/refs/tags/v$
 # wget https://github.com/hickory-dns/hickory-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
 ARG SOURCE_SHA256="e5158a8e412876768fc3d171ef4b2c3e0d4e99c1a1d082018b93bcda9fb31334"
 
-FROM rust:alpine3.18 as build-env
+FROM alpine:3.18 as build-env
 
 ARG VERSION
 ARG SOURCE_FILE

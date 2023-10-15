@@ -1,5 +1,10 @@
 IMAGE_TAG ?= hickorydns/hickory-dns:latest
 BUILD_ARGS ?=
+# All: linux/amd64,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le,linux/mips64,linux/arm/v7,linux/arm/v6
+# Supported by alpine: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
+PLATFORM ?= linux/amd64
+ACTION ?= load
+PROGRESS_MODE ?= plain
 
 ## -- helpers for ENVs possibly used in BUILD_ARGS (manual builds), see README
 VERSION ?=
@@ -25,16 +30,21 @@ endif
 
 ## -- end
 
-.PHONY: build-alpine test-alpine push
+.PHONY: build-alpine test-alpine
 
 build-alpine:
-	@echo "Build arguments: ${BUILD_ARGS}"
-	docker build --pull -f ./alpine/Dockerfile ./alpine -t "${IMAGE_TAG}" ${BUILD_ARGS} --build-arg BUILD_DATE="$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")"
+	# https://github.com/docker/buildx#building
+	docker buildx build \
+		--build-arg VCS_REF="$(shell git rev-parse HEAD)" \
+		--build-arg BUILD_DATE="$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")" \
+		--tag $(IMAGE_TAG) \
+		--progress $(PROGRESS_MODE) \
+		--platform $(PLATFORM) \
+		--pull \
+		${BUILD_ARGS} \
+		--$(ACTION) \
+		./alpine
 
 test-alpine:
-	IMAGE_TAG="${IMAGE_TAG}" docker-compose -f ./docker-compose.test.yml up --exit-code-from sut --abort-on-container-exit
-
-push:
-	@echo "Pushing to ${IMAGE_TAG} in 2sec"
-	@sleep 2
-	docker push "${IMAGE_TAG}"
+	IMAGE_TAG="$(IMAGE_TAG)" \
+	docker-compose -f ./docker-compose.test.yml up --exit-code-from sut --abort-on-container-exit
