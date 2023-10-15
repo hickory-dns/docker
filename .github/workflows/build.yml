@@ -18,7 +18,9 @@ jobs:
             fail-fast: false
             max-parallel: 4
             matrix:
-                platform: ["linux/386", "linux/amd64", "linux/arm/v6", "linux/arm/v7", "linux/arm64/v8", "linux/ppc64le", "linux/s390x"]
+                # Disabled: "linux/ppc64le", "linux/s390x"
+                # See: https://github.com/hickory-dns/hickory-dns/issues/2065
+                platform: ["linux/386", "linux/amd64", "linux/arm/v6", "linux/arm/v7", "linux/arm64/v8"]
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
