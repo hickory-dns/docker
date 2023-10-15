@@ -23,6 +23,7 @@ RUN \
     rm /tmp/hickory-dns.tar.gz;
 
 RUN apk add --no-cache --update rust cargo musl-dev openssl-dev pkgconfig
+RUN cargo test --release
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
 RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features $FEATURES
 
