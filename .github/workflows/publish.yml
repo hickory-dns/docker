@@ -32,7 +32,7 @@ jobs:
                   password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
             - name: Build and push image
-              run: make docker-build
+              run: make build-alpine
               env:
                   DOCKER_BUILDKIT: 1
                   # Disabled: linux/ppc64le,linux/s390x
@@ -42,6 +42,6 @@ jobs:
                   ACTION: push
 
             - name: Test docker image
-              run: make docker-test
+              run: make test-alpine
               env:
                   IMAGE_TAG: docker.io/hickorydns/hickory-dns:latest
