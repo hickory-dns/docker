@@ -35,9 +35,7 @@ jobs:
               run: make build-alpine
               env:
                   DOCKER_BUILDKIT: 1
-                  # Disabled: linux/ppc64le,linux/s390x
-                  # See: https://github.com/hickory-dns/hickory-dns/issues/2065
-                  PLATFORM: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8
+                  PLATFORM: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
                   IMAGE_TAG: docker.io/hickorydns/hickory-dns:latest
                   ACTION: push
 
