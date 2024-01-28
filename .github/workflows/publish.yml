@@ -60,10 +60,6 @@ jobs:
                   # And docker manifest create does not like that
                   EXTRA_ARGS: "--provenance=false"
 
-            - name: Test docker image
-              if: ${{ matrix.platform == 'linux/amd64' }}
-              run: make test-alpine
-
     build-and-push-manifest:
         name: Build and push the docker hub manifest
         runs-on: ubuntu-latest
@@ -96,6 +92,8 @@ jobs:
               run: docker manifest push docker.io/hickorydns/hickory-dns:latest
             - name: Inspect the manifest
               run: docker manifest inspect docker.io/hickorydns/hickory-dns:latest
+            - name: Test docker image
+              run: make test-alpine
 
     tags-cleanup:
         runs-on: ubuntu-latest
