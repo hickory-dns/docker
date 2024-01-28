@@ -9,37 +9,82 @@ on:
         types: [published]
 
 jobs:
-    publish-docker-image:
+    push_to_registry:
         environment:
             name: "docker-hub"
             url: https://hub.docker.com/r/hickorydns/hickory-dns
-        name: Build and test image and publish the image
+        name: Push Docker image to Docker hub
         runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            max-parallel: 4
+            matrix:
+                include:
+                    # All non supported by base image are commented
+                    - { platform: "linux/arm64", platform-tag: "arm64" }
+                    - { platform: "linux/amd64", platform-tag: "amd64" }
+                    - { platform: "linux/arm/v7", platform-tag: "armv7" }
+                    - { platform: "linux/arm/v6", platform-tag: "armv6" }
+                    - { platform: "linux/ppc64le", platform-tag: "ppc64le" }
+                    #- { platform: "linux/riscv64", platform-tag: "riscv64" }
+                    - { platform: "linux/s390x", platform-tag: "s390x" }
+                    - { platform: "linux/386", platform-tag: "386" }
+                    #- { platform: "linux/mips64le", platform-tag: "mips64le" }
+                    #- { platform: "linux/mips64", platform-tag: "mips64" }
+
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
-            # https://github.com/docker/setup-qemu-action
-            - name: Set up QEMU
-              uses: docker/setup-qemu-action@v2
-            # https://github.com/docker/setup-buildx-action
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v2
             - name: Login to DockerHub
-              uses: docker/login-action@v2
+              uses: docker/login-action@v3
               with:
                   registry: docker.io
                   username: ${{ secrets.DOCKER_HUB_USER }}
                   password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-
+            # https://github.com/docker/setup-qemu-action
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v3
+            # https://github.com/docker/setup-buildx-action
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
             - name: Build and push image
-              run: make build-alpine
+              run: make docker-build docker-push
               env:
                   DOCKER_BUILDKIT: 1
-                  PLATFORM: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x
-                  IMAGE_TAG: docker.io/hickorydns/hickory-dns:latest
-                  ACTION: push
+                  PLATFORM: "${{ matrix.platform }}"
+                  IMAGE_TAG: "docker.io/hickorydns/hickory-dns:${{ matrix.platform-tag }}-latest"
 
             - name: Test docker image
+              if: ${{ matrix.platform == 'linux/amd64' }}
               run: make test-alpine
+
+    build-and-push-manifest:
+        name: Build and push the docker hub manifest
+        runs-on: ubuntu-latest
+        needs: push_to_registry
+        environment:
+            name: "docker-hub"
+            url: https://hub.docker.com/r/hickorydns/hickory-dns
+        steps:
+            - name: Login to DockerHub
+              uses: docker/login-action@v3
+              with:
+                  registry: docker.io
+                  username: ${{ secrets.DOCKER_HUB_USER }}
+                  password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+            - name: Create the manifest
               env:
-                  IMAGE_TAG: docker.io/hickorydns/hickory-dns:latest
+                  DOCKER_CLI_EXPERIMENTAL: enabled
+              run: docker manifest create docker.io/hickorydns/hickory-dns:latest \
+                      docker.io/hickorydns/hickory-dns:arm64-latest \
+                      docker.io/hickorydns/hickory-dns:amd64-latest \
+                      docker.io/hickorydns/hickory-dns:armv7-latest \
+                      docker.io/hickorydns/hickory-dns:armv6-latest \
+                      docker.io/hickorydns/hickory-dns:ppc64le-latest \
+                      docker.io/hickorydns/hickory-dns:s390x-latest \
+                      docker.io/hickorydns/hickory-dns:386-latest \
+                      --amend
+            - name: Push the manifest
+              env:
+                  DOCKER_CLI_EXPERIMENTAL: enabled
+              run: docker manifest push docker.io/hickorydns/hickory-dns:latest
