@@ -5,6 +5,7 @@ BUILD_ARGS ?=
 PLATFORM ?= linux/amd64
 ACTION ?= load
 PROGRESS_MODE ?= plain
+EXTRA_ARGS ?=
 
 ## -- helpers for ENVs possibly used in BUILD_ARGS (manual builds), see README
 VERSION ?=
@@ -42,6 +43,7 @@ build-alpine:
 		--platform $(PLATFORM) \
 		--pull \
 		${BUILD_ARGS} \
+		$(EXTRA_ARGS) \
 		--$(ACTION) \
 		./alpine
 

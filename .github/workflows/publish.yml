@@ -47,17 +47,22 @@ jobs:
             # https://github.com/docker/setup-buildx-action
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
-            #- name: Build and push image
-            #  run: make build-alpine
-            #  env:
-            #      DOCKER_BUILDKIT: 1
-            #      ACTION: push
-            #      PLATFORM: "${{ matrix.platform }}"
-            #      IMAGE_TAG: "docker.io/hickorydns/hickory-dns:${{ matrix.platform-tag }}-latest"
+            - name: Build and push image
+              run: make build-alpine
+              env:
+                  DOCKER_BUILDKIT: 1
+                  ACTION: push
+                  PLATFORM: "${{ matrix.platform }}"
+                  IMAGE_TAG: "docker.io/hickorydns/hickory-dns:${{ matrix.platform-tag }}-latest"
+                  # Disable provenance to remove the attestation from the pushed image
+                  # See: https://github.com/docker/buildx/issues/1509
+                  # It makes: docker.io/botsudo/docker-rustpython:<arch>-latest a manifest list
+                  # And docker manifest create does not like that
+                  EXTRA_ARGS: "--provenance=false"
 
-            #- name: Test docker image
-            #  if: ${{ matrix.platform == 'linux/amd64' }}
-            #  run: make test-alpine
+            - name: Test docker image
+              if: ${{ matrix.platform == 'linux/amd64' }}
+              run: make test-alpine
 
     build-and-push-manifest:
         name: Build and push the docker hub manifest
