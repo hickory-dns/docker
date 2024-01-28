@@ -92,6 +92,8 @@ jobs:
               run: docker manifest push docker.io/hickorydns/hickory-dns:latest
             - name: Inspect the manifest
               run: docker manifest inspect docker.io/hickorydns/hickory-dns:latest
+            - name: Checkout repository
+              uses: actions/checkout@v4
             - name: Test docker image
               run: make test-alpine
 
