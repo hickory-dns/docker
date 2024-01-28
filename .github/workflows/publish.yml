@@ -62,7 +62,7 @@ jobs:
     build-and-push-manifest:
         name: Build and push the docker hub manifest
         runs-on: ubuntu-latest
-        needs: [push_to_registry, tags-cleanup]
+        needs: push_to_registry
         environment:
             name: "docker-hub"
             url: https://hub.docker.com/r/hickorydns/hickory-dns
@@ -76,7 +76,8 @@ jobs:
             - name: Create the manifest
               env:
                   DOCKER_CLI_EXPERIMENTAL: enabled
-              run: docker manifest create docker.io/hickorydns/hickory-dns:latest \
+              run: |
+                  docker manifest create docker.io/hickorydns/hickory-dns:latest \
                       docker.io/hickorydns/hickory-dns:arm64-latest \
                       docker.io/hickorydns/hickory-dns:amd64-latest \
                       docker.io/hickorydns/hickory-dns:armv7-latest \
@@ -93,6 +94,7 @@ jobs:
 
     tags-cleanup:
         runs-on: ubuntu-latest
+        needs: build-and-push-manifest
         environment:
             name: "docker-hub"
             url: https://hub.docker.com/r/hickorydns/hickory-dns
@@ -122,7 +124,13 @@ jobs:
                   DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
             - name: Remove DockerHub tags via hub-tool
               run: |
-                  ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:latest || true
+                  ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:arm64-latest || true
+                  ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:amd64-latest || true
+                  ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:armv7-latest || true
+                  ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:armv6-latest || true
+                  ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:ppc64le-latest || true
+                  ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:s390x-latest || true
+                  ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:386-latest || true
                   ./hub-tool tag ls --verbose docker.io/hickorydns/hickory-dns
             - name: Logout hub-tool
               if: always()
