@@ -1,11 +1,11 @@
 # Minimum Rust version: https://github.com/hickory-dns/hickory-dns/blob/main/Cargo.toml "rust-version"
 
 ARG VERSION="0.25.0-alpha.1"
-ARG SOURCE_FILE="https://github.com/hickory-dns/hickory-dns/archive/b0b6957b58c5ee6594f8e5c4296079cdc5942251.tar.gz"
+ARG SOURCE_FILE="https://github.com/hickory-dns/hickory-dns/archive/refs/tags/v${VERSION}.tar.gz"
 # wget https://github.com/hickory-dns/hickory-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
 ARG SOURCE_SHA256="8bc701dbca62e8da9ca48e06e48fa5393db294b88490ecfca6e4199c2d9dd4e3"
 
-FROM alpine:3.20 as build-env
+FROM alpine:3.20 AS build-env
 
 ARG VERSION
 ARG SOURCE_FILE
@@ -27,7 +27,7 @@ RUN cargo fetch
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
 RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features $FEATURES
 
-FROM alpine:3.20 as runtime
+FROM alpine:3.20 AS runtime
 
 ARG VERSION
 ARG SOURCE_FILE
