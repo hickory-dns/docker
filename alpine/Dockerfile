@@ -11,7 +11,9 @@ ARG VERSION
 ARG SOURCE_FILE
 ARG SOURCE_SHA256
 
-ARG FEATURES="dnssec-openssl,dns-over-https,dns-over-https-rustls,dnssec-ring,dnssec,resolver,sqlite,backtrace"
+# https://docs.rs/crate/hickory-dns/0.25.0-alpha.3/features
+ARG DEFAULT_FEATURES="ascii-art,native-certs,resolver,sqlite"
+ARG FEATURES="dns-over-h3,dns-over-quic,dns-over-rustls,dns-over-https-rustls,dnssec,dnssec-openssl,blocklist,$DEFAULT_FEATURES"
 
 WORKDIR /workspace
 RUN \
