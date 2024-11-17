@@ -12,7 +12,7 @@ ARG SOURCE_FILE
 ARG SOURCE_SHA256
 
 # https://docs.rs/crate/hickory-dns/0.25.0-alpha.3/features
-ARG DEFAULT_FEATURES="ascii-art,webpki,resolver,sqlite"
+ARG DEFAULT_FEATURES="ascii-art,resolver,sqlite"
 ARG FEATURES="dns-over-h3,dns-over-quic,dns-over-rustls,dns-over-https-rustls,dnssec,dnssec-openssl,blocklist,$DEFAULT_FEATURES"
 
 WORKDIR /workspace
