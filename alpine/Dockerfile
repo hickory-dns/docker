@@ -5,7 +5,7 @@ ARG SOURCE_FILE="https://github.com/hickory-dns/hickory-dns/archive/refs/tags/v$
 # wget https://github.com/hickory-dns/hickory-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
 ARG SOURCE_SHA256="d6281b13757575e68f239e2019b4691a1d53ab083baa6196457d99ccf60e62d1"
 
-FROM alpine:3.20 AS build-env
+FROM alpine:3.21 AS build-env
 
 ARG VERSION
 ARG SOURCE_FILE
@@ -29,7 +29,7 @@ RUN cargo fetch
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
 RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features $FEATURES
 
-FROM alpine:3.20 AS runtime
+FROM alpine:3.21 AS runtime
 
 ARG VERSION
 ARG SOURCE_FILE
