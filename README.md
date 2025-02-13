@@ -14,7 +14,7 @@ This is the [hickory-dns](https://github.com/hickory-dns/hickory-dns#readme) Doc
 - `dns-over-rustls`
 - `dns-over-https-rustls`
 - `dnssec`
-- `dnssec-openssl`
+- `dnssec-ring`
 - `ascii-art`
 - `resolver`
 - `sqlite`
