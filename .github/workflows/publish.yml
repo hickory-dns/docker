@@ -92,11 +92,50 @@ jobs:
                   DOCKER_CLI_EXPERIMENTAL: enabled
               run: docker manifest push docker.io/hickorydns/hickory-dns:latest
             - name: Inspect the manifest
-              run: docker manifest inspect docker.io/hickorydns/hickory-dns:latest
+              run: docker manifest inspect docker.io/hickorydns/hickory-dns:latest >> $GITHUB_STEP_SUMMARY
             - name: Checkout repository
               uses: actions/checkout@v4
             - name: Test docker image
               run: make test-alpine
+
+    build-and-push-version-manifest:
+        name: Build and push the docker hub manifest for the version
+        runs-on: ubuntu-latest
+        needs:
+          - push_to_registry
+          # To ensure the lastest tag exists
+          - build-and-push-manifest
+        environment:
+            name: "docker-hub"
+            url: https://hub.docker.com/r/hickorydns/hickory-dns
+        steps:
+            - name: Login to DockerHub
+              uses: docker/login-action@v3
+              with:
+                  registry: docker.io
+                  username: ${{ secrets.DOCKER_HUB_USER }}
+                  password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+            - name: Get the version
+              run: echo "buildVersion=$(docker image inspect docker.io/hickorydns/hickory-dns:latest -f '{{ (index .Config.Labels "org.opencontainers.image.version")}}')" >> "$GITHUB_ENV"
+            - name: Create the manifest for the version ${{ env.buildVersion }}
+              env:
+                  DOCKER_CLI_EXPERIMENTAL: enabled
+              run: |
+                  docker manifest create docker.io/hickorydns/hickory-dns:${{ env.buildVersion }} \
+                      docker.io/hickorydns/hickory-dns:arm64-latest \
+                      docker.io/hickorydns/hickory-dns:amd64-latest \
+                      docker.io/hickorydns/hickory-dns:armv7-latest \
+                      docker.io/hickorydns/hickory-dns:armv6-latest \
+                      docker.io/hickorydns/hickory-dns:ppc64le-latest \
+                      docker.io/hickorydns/hickory-dns:s390x-latest \
+                      docker.io/hickorydns/hickory-dns:riscv64-latest \
+                      docker.io/hickorydns/hickory-dns:386-latest
+            - name: Push the manifest for the version ${{ env.buildVersion }}
+              env:
+                  DOCKER_CLI_EXPERIMENTAL: enabled
+              run: docker manifest push docker.io/hickorydns/hickory-dns:${{ env.buildVersion }}
+            - name: Inspect the manifest for the version ${{ env.buildVersion }}
+              run: docker manifest inspect docker.io/hickorydns/hickory-dns:${{ env.buildVersion }} >> $GITHUB_STEP_SUMMARY
 
     tags-cleanup:
         runs-on: ubuntu-latest
