@@ -26,8 +26,8 @@ jobs:
                     - { platform: "linux/arm/v7", platform-tag: "armv7" }
                     - { platform: "linux/arm/v6", platform-tag: "armv6" }
                     - { platform: "linux/ppc64le", platform-tag: "ppc64le" }
-                    #- { platform: "linux/riscv64", platform-tag: "riscv64" }
                     - { platform: "linux/s390x", platform-tag: "s390x" }
+                    - { platform: "linux/riscv64", platform-tag: "riscv64" }
                     - { platform: "linux/386", platform-tag: "386" }
                     #- { platform: "linux/mips64le", platform-tag: "mips64le" }
                     #- { platform: "linux/mips64", platform-tag: "mips64" }
@@ -85,6 +85,7 @@ jobs:
                       docker.io/hickorydns/hickory-dns:armv6-latest \
                       docker.io/hickorydns/hickory-dns:ppc64le-latest \
                       docker.io/hickorydns/hickory-dns:s390x-latest \
+                      docker.io/hickorydns/hickory-dns:riscv64-latest \
                       docker.io/hickorydns/hickory-dns:386-latest
             - name: Push the manifest
               env:
@@ -135,6 +136,7 @@ jobs:
                   ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:armv6-latest || true
                   ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:ppc64le-latest || true
                   ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:s390x-latest || true
+                  ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:riscv64-latest || true
                   ./hub-tool tag rm --verbose --force docker.io/hickorydns/hickory-dns:386-latest || true
                   ./hub-tool tag ls --verbose docker.io/hickorydns/hickory-dns
             - name: Logout hub-tool
