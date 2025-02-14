@@ -115,6 +115,8 @@ jobs:
                   registry: docker.io
                   username: ${{ secrets.DOCKER_HUB_USER }}
                   password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+            - name: Pull the image
+              run: docker pull docker.io/hickorydns/hickory-dns:latest
             - name: Get the version
               run: echo "buildVersion=$(docker image inspect docker.io/hickorydns/hickory-dns:latest -f '{{ (index .Config.Labels "org.opencontainers.image.version")}}')" >> "$GITHUB_ENV"
             - name: Create the manifest for the version ${{ env.buildVersion }}
