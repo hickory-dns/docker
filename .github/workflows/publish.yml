@@ -141,7 +141,9 @@ jobs:
 
     tags-cleanup:
         runs-on: ubuntu-latest
-        needs: build-and-push-manifest
+        needs:
+          - build-and-push-manifest
+          - build-and-push-version-manifest
         environment:
             name: "docker-hub"
             url: https://hub.docker.com/r/hickorydns/hickory-dns
