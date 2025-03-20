@@ -49,4 +49,4 @@ build-alpine:
 
 test-alpine:
 	IMAGE_TAG="$(IMAGE_TAG)" \
-	docker compose -f ./docker-compose.test.yml up --exit-code-from sut --abort-on-container-exit
+	docker compose -f ./compose.test.yml up --exit-code-from sut --abort-on-container-exit
