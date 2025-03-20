@@ -9,11 +9,9 @@ This is the [hickory-dns](https://github.com/hickory-dns/hickory-dns#readme) Doc
 
 ## Enabled [features](https://github.com/hickory-dns/hickory-dns/#using-as-a-dependency-and-custom-features) in the image
 
-- `dns-over-h3`
-- `dns-over-quic`
-- `dns-over-rustls`
-- `dns-over-https-rustls`
-- `dnssec`
+- `h3-ring`
+- `quic-ring`
+- `https-ring`
 - `dnssec-ring`
 - `ascii-art`
 - `resolver`
