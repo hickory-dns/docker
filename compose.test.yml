@@ -1,0 +1,20 @@
+services:
+    # Docker hub auto test service name
+    sut:
+        image: alpine:3.21
+        command: "/tests/dns-tests.sh"
+        volumes:
+          - ./tests:/tests:ro
+        working_dir: /tests
+
+    dns-server-forwarding:
+        image: ${IMAGE_TAG:-hickory-dns}
+        volumes:
+          - ./tests/named-forwarding.toml:/etc/named.toml:ro
+          - ./tests/custom.zone:/var/named/custom.zone:ro
+
+    dns-server-recursive:
+        image: ${IMAGE_TAG:-hickory-dns}
+        volumes:
+          - ./tests/named-recursive.toml:/etc/named.toml:ro
+          - ./tests/custom.zone:/var/named/custom.zone:ro
