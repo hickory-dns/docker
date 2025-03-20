@@ -15,7 +15,7 @@ zone_type = "External"
 
 [zones.stores]
 type = "recursor"
-roots = "default/root.zone"
+roots = "/usr/share/dns/root.hints"
 ns_cache_size = 1024
 record_cache_size = 1048576
 recursion_limit = 12

@@ -29,6 +29,10 @@ RUN cargo fetch
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
 RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features $FEATURES
 
+FROM debian:bookworm-slim AS dns-root-data
+
+RUN apt update && apt install dns-root-data -y
+
 FROM alpine:3.21 AS runtime
 
 ARG VERSION
@@ -67,6 +71,10 @@ LABEL org.label-schema.vendor="hickory-dns" \
 # https://github.com/mischov/meeseeks/issues/98#issuecomment-636615680
 RUN apk add --no-cache --update openssl libgcc
 COPY --from=build-env /workspace/target/release/hickory-dns /usr/bin
+COPY --from=dns-root-data /usr/share/dns/root.ds /usr/share/dns/root.ds
+COPY --from=dns-root-data /usr/share/dns/root.hints /usr/share/dns/root.hints
+COPY --from=dns-root-data /usr/share/dns/root.key /usr/share/dns/root.key
+
 # Quickly test the binary is "working" and has no linked libs errors
 RUN hickory-dns --version
 
