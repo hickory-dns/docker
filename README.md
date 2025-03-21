@@ -17,6 +17,7 @@ This is the [hickory-dns](https://github.com/hickory-dns/hickory-dns#readme) Doc
 - `resolver`
 - `recursor`
 - `sqlite`
+- `rustls-platform-verifier`
 
 ## Example use in docker-compose
 
