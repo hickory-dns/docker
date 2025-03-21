@@ -14,23 +14,23 @@ jobs:
             name: "docker-hub"
             url: https://hub.docker.com/r/hickorydns/hickory-dns
         name: Push Docker image to Docker hub
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.run-on }}
         strategy:
             fail-fast: false
             max-parallel: 4
             matrix:
                 include:
                     # All non supported by base image are commented
-                    - { platform: "linux/arm64", platform-tag: "arm64" }
-                    - { platform: "linux/amd64", platform-tag: "amd64" }
-                    - { platform: "linux/arm/v7", platform-tag: "armv7" }
-                    - { platform: "linux/arm/v6", platform-tag: "armv6" }
-                    - { platform: "linux/ppc64le", platform-tag: "ppc64le" }
-                    - { platform: "linux/s390x", platform-tag: "s390x" }
-                    - { platform: "linux/riscv64", platform-tag: "riscv64" }
-                    - { platform: "linux/386", platform-tag: "386" }
-                    #- { platform: "linux/mips64le", platform-tag: "mips64le" }
-                    #- { platform: "linux/mips64", platform-tag: "mips64" }
+                    - { platform: "linux/amd64", platform-tag: "amd64", run-on: "ubuntu-22.04", use-qemu: false }
+                    - { platform: "linux/arm64", platform-tag: "arm64", run-on: "ubuntu-22.04-arm", use-qemu: false }
+                    - { platform: "linux/arm/v7", platform-tag: "armv7", run-on: "ubuntu-22.04-arm", use-qemu: true }
+                    - { platform: "linux/arm/v6", platform-tag: "armv6", run-on: "ubuntu-22.04", use-qemu: true }
+                    - { platform: "linux/ppc64le", platform-tag: "ppc64le", run-on: "ubuntu-22.04", use-qemu: true }
+                    - { platform: "linux/s390x", platform-tag: "s390x", run-on: "ubuntu-22.04", use-qemu: true }
+                    - { platform: "linux/riscv64", platform-tag: "riscv64", run-on: "ubuntu-22.04", use-qemu: true }
+                    - { platform: "linux/386", platform-tag: "386", run-on: "ubuntu-22.04", use-qemu: true }
+                    #- { platform: "linux/mips64le", platform-tag: "mips64le", run-on: "ubuntu-22.04", use-qemu: true }
+                    #- { platform: "linux/mips64", platform-tag: "mips64", run-on: "ubuntu-22.04", use-qemu: true }
 
         steps:
             - name: Checkout repository
@@ -44,6 +44,7 @@ jobs:
             # https://github.com/docker/setup-qemu-action
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
+              if: ${{ matrix.use-qemu }}
             # https://github.com/docker/setup-buildx-action
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
