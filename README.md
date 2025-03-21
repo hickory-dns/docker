@@ -29,11 +29,11 @@ See: https://www.iana.org/domains/root/files
 - `/usr/share/dns/root.hints` The hints to the DNS root servers  (https://www.internic.net/domain/named.root).
 - `/usr/share/dns/root.key` The DNS `DNSKEY` record for DNSSEC validation of the root `.` (https://data.iana.org/root-anchors/root-anchors.xml).
 
-## Example use in docker-compose
+## Example use in `docker compose`
+
+File `compose.yml`:
 
 ```yaml
-version: "2"
-
 services:
     dns-server:
         image: docker.io/hickorydns/hickory-dns:latest
@@ -45,6 +45,11 @@ services:
             - "53:53/udp"
 ```
 
+You can find two tested examples in this repository:
+
+- [named-forwarding.toml](./tests/named-forwarding.toml)
+- [named-recursive.toml](./tests/named-recursive.toml)
+
 ### Contributing
 
 #### Build a pull-request or your work
@@ -54,7 +59,7 @@ You can add the argument `FEATURES=` to define the list of enabled features
 - Edit and run
 
     ```sh
-    IMAGE_TAG="yourUsername/hickory-dns:ns-trial" \
+    IMAGE_TAG="yourUsername/hickory-dns:custom-version" \
     VERSION="0.20.x-dev" \
     SOURCE_FILE="https://github.com/hickory-dns/hickory-dns/archive/refs/heads/stop-returning-ns-on-auth-response.tar.gz" \
     SOURCE_SHA256="$(curl -Ls "${SOURCE_FILE}" -o - | sha256sum | cut -d ' ' -f 1)" \
@@ -66,5 +71,5 @@ To use wget, replace `curl -Ls "${SOURCE_FILE}" -o -` by `wget "${SOURCE_FILE}" 
 #### Push the result to your repository
 
 ```sh
-IMAGE_TAG="yourUsername/hickory-dns:ns-trial" make push
+IMAGE_TAG="yourUsername/hickory-dns:custom-version" make push
 ```
