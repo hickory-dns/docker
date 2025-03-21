@@ -15,6 +15,7 @@ This is the [hickory-dns](https://github.com/hickory-dns/hickory-dns#readme) Doc
 - `dnssec-ring`
 - `ascii-art`
 - `resolver`
+- `recursor`
 - `sqlite`
 
 ## Example use in docker-compose
