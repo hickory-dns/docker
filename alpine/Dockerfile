@@ -13,7 +13,7 @@ ARG SOURCE_SHA256
 
 # https://docs.rs/crate/hickory-dns/0.25.1/features
 ARG DEFAULT_FEATURES="ascii-art,resolver,sqlite"
-ARG FEATURES="h3-ring,quic-ring,https-ring,dnssec-ring,recursor,rustls-platform-verifier,$DEFAULT_FEATURES"
+ARG FEATURES="h3-ring,quic-ring,https-ring,dnssec-ring,recursor,rustls-platform-verifier,webpki-roots,$DEFAULT_FEATURES"
 
 WORKDIR /workspace
 RUN \
@@ -26,7 +26,7 @@ RUN \
 
 RUN apk add --no-cache --update rust cargo musl-dev openssl-dev pkgconfig
 RUN cargo fetch
-RUN cargo build --bin hickory-dns --release --no-default-features --features $FEATURES
+RUN cargo build -p hickory-dns --bin hickory-dns --release --no-default-features --features $FEATURES
 RUN ldd /workspace/target/release/hickory-dns
 
 FROM debian:trixie-slim AS dns-root-data
