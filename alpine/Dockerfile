@@ -29,7 +29,7 @@ RUN cargo fetch
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
 RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features $FEATURES
 
-FROM debian:bookworm-slim AS dns-root-data
+FROM debian:trixie-slim AS dns-root-data
 
 RUN apt update && apt install dns-root-data -y
 
