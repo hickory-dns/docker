@@ -49,6 +49,6 @@ build-alpine:
 
 test-alpine:
 	@echo "Running on $(shell uname -m)"
-	@echo "Docker is running on $(shell docker run --entrypoint /bin/uname --rm $(IMAGE_TAG) -m)"
+	@echo "Docker is running on $(shell docker run --platform $(PLATFORM) --entrypoint /bin/uname --rm $(IMAGE_TAG) -m)"
 	IMAGE_TAG="$(IMAGE_TAG)" \
 	docker compose -f ./compose.test.yml up --exit-code-from sut --abort-on-container-exit
