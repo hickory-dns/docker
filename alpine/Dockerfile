@@ -26,8 +26,8 @@ RUN \
 
 RUN apk add --no-cache --update rust cargo musl-dev openssl-dev pkgconfig
 RUN cargo fetch
-# https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
-RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release --no-default-features --features $FEATURES
+RUN cargo build --bin hickory-dns --release --no-default-features --features $FEATURES
+RUN ldd /workspace/target/release/hickory-dns
 
 FROM debian:trixie-slim AS dns-root-data
 
@@ -69,13 +69,21 @@ LABEL org.label-schema.vendor="hickory-dns" \
     org.opencontainers.image.ref.name="${VERSION}"
 
 # https://github.com/mischov/meeseeks/issues/98#issuecomment-636615680
-RUN apk add --no-cache --update openssl libgcc
-COPY --from=build-env /workspace/target/release/hickory-dns /usr/bin
-COPY --from=dns-root-data /usr/share/dns/root.ds /usr/share/dns/root.ds
-COPY --from=dns-root-data /usr/share/dns/root.hints /usr/share/dns/root.hints
-COPY --from=dns-root-data /usr/share/dns/root.key /usr/share/dns/root.key
+RUN apk add --no-cache --update libgcc bind-tools
+
+COPY --chmod=555 --from=build-env /workspace/target/release/hickory-dns /usr/bin
+COPY --chmod=444 --from=dns-root-data /usr/share/dns/root.ds /usr/share/dns/root.ds
+COPY --chmod=444 --from=dns-root-data /usr/share/dns/root.hints /usr/share/dns/root.hints
+COPY --chmod=444 --from=dns-root-data /usr/share/dns/root.key /usr/share/dns/root.key
 
 # Quickly test the binary is "working" and has no linked libs errors
-RUN hickory-dns --version
+RUN set -eux; \
+    hickory-dns --version; \
+    hickory-dns --help; \
+    printf '[[zones]]\nzone = "."\nzone_type = "External"\n[zones.stores]\ntype = "forward"\nname_servers = [{ socket_addr = "1.1.1.1:53", protocol = "udp" },{ socket_addr = "1.0.0.1:53", protocol = "tcp" }]\n' > /tmp/named.toml; \
+    hickory-dns --validate --config /tmp/named.toml; \
+    nohup sh -c "hickory-dns --config /tmp/named.toml &"; \
+    dig +short google.fr @127.0.0.1; \
+    rm /tmp/named.toml
 
 ENTRYPOINT [ "hickory-dns" ]
