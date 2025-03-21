@@ -48,5 +48,6 @@ build-alpine:
 		./alpine
 
 test-alpine:
+	@echo "Running on $(shell uname -m)"
 	IMAGE_TAG="$(IMAGE_TAG)" \
 	docker compose -f ./compose.test.yml up --exit-code-from sut --abort-on-container-exit

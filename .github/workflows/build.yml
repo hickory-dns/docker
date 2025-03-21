@@ -13,12 +13,18 @@ on:
 jobs:
     build-image:
         name: Build the image
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.run-on }}
         strategy:
             fail-fast: false
             max-parallel: 4
             matrix:
-                platform: ["linux/386", "linux/amd64", "linux/arm/v6", "linux/arm/v7", "linux/arm64/v8", "linux/ppc64le", "linux/s390x", "linux/riscv64"]
+                platform: ["linux/386", "linux/amd64", "linux/ppc64le", "linux/s390x", "linux/riscv64"]
+                run-on: ["ubuntu-22.04"]
+                includes:
+                  - { platform: "linux/arm/v6", run-on: "ubuntu-22.04-arm" }
+                  - { platform: "linux/arm/v7", run-on: "ubuntu-22.04-arm" }
+                  - { platform: "linux/arm64/v8", run-on: "ubuntu-22.04-arm" }
+
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -35,5 +41,6 @@ jobs:
                 PLATFORM: ${{ matrix.platform }}
 
             - name: Test docker image
-              if: ${{ matrix.platform == 'linux/amd64' }}
               run: make test-alpine
+              env:
+                DOCKER_DEFAULT_PLATFORM: ${{ matrix.platform }}
