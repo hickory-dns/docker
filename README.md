@@ -20,6 +20,16 @@ This is the [hickory-dns](https://github.com/hickory-dns/hickory-dns#readme) Doc
 - `rustls-platform-verifier`
 - `webpki-roots`
 
+## Additional files
+
+The container has some more files copied from the Debian (`trixie`) package `dns-root-data`.
+
+See: https://www.iana.org/domains/root/files
+
+- `/usr/share/dns/root.ds` The DNS `DS` record for DNSSEC validation of the root `.` (https://data.iana.org/root-anchors/root-anchors.xml).
+- `/usr/share/dns/root.hints` The hints to the DNS root servers  (https://www.internic.net/domain/named.root).
+- `/usr/share/dns/root.key` The DNS `DNSKEY` record for DNSSEC validation of the root `.` (https://data.iana.org/root-anchors/root-anchors.xml).
+
 ## Example use in docker-compose
 
 ```yaml
