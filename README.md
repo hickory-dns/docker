@@ -18,7 +18,6 @@ This is the [hickory-dns](https://github.com/hickory-dns/hickory-dns#readme) Doc
 - `recursor`
 - `sqlite`
 - `rustls-platform-verifier`
-- `webpki-roots`
 
 ## Additional files
 
