@@ -19,14 +19,15 @@ jobs:
             max-parallel: 4
             matrix:
                 include:
-                  - { platform: "linux/386", run-on: "ubuntu-22.04", qemu-platform: "386" }
-                  - { platform: "linux/amd64", run-on: "ubuntu-22.04", qemu-platform: "" }
-                  - { platform: "linux/ppc64le", run-on: "ubuntu-22.04", qemu-platform: "ppc64le" }
-                  - { platform: "linux/s390x", run-on: "ubuntu-22.04", qemu-platform: "s390x" }
-                  - { platform: "linux/riscv64", run-on: "ubuntu-22.04", qemu-platform: "riscv64" }
-                  - { platform: "linux/arm/v6", run-on: "ubuntu-22.04-arm", qemu-platform: "arm" }
-                  - { platform: "linux/arm/v7", run-on: "ubuntu-22.04-arm", qemu-platform: "arm" }
-                  - { platform: "linux/arm64/v8", run-on: "ubuntu-22.04-arm", qemu-platform: "" }
+                  - { platform: "linux/386", run-on: "ubuntu-22.04", use-qemu: true }
+                  - { platform: "linux/amd64", run-on: "ubuntu-22.04", use-qemu: false }
+                  - { platform: "linux/ppc64le", run-on: "ubuntu-22.04", use-qemu: true }
+                  - { platform: "linux/s390x", run-on: "ubuntu-22.04", use-qemu: true }
+                  - { platform: "linux/riscv64", run-on: "ubuntu-22.04", use-qemu: true }
+                  # Do not use arm to build armv6, it is much slower
+                  - { platform: "linux/arm/v6", run-on: "ubuntu-22.04", use-qemu: true }
+                  - { platform: "linux/arm/v7", run-on: "ubuntu-22.04-arm", use-qemu: true }
+                  - { platform: "linux/arm64/v8", run-on: "ubuntu-22.04-arm", use-qemu: false }
 
         steps:
             - name: Checkout repository
@@ -34,17 +35,7 @@ jobs:
             # https://github.com/docker/setup-qemu-action
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
-              if: ${{ matrix.qemu-platform != '' }}
-              with:
-                # mips64le
-                # loong64
-                # s390x
-                # ppc64le
-                # riscv64
-                # 386
-                # mips64
-                # amd64
-                platforms: ${{ matrix.qemu-platform }}
+              if: ${{ matrix.use-qemu }}
             # https://github.com/docker/setup-buildx-action
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
