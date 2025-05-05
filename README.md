@@ -9,15 +9,16 @@ This is the [hickory-dns](https://github.com/hickory-dns/hickory-dns#readme) Doc
 
 ## Enabled [features](https://github.com/hickory-dns/hickory-dns/#using-as-a-dependency-and-custom-features) in the image
 
-- `h3-ring`
-- `quic-ring`
-- `https-ring`
-- `dnssec-ring`
 - `ascii-art`
+- `blocklist`
+- `dnssec-ring`
+- `h3-ring`
+- `https-ring`
+- `quic-ring`
 - `resolver`
 - `recursor`
-- `sqlite`
 - `rustls-platform-verifier`
+- `sqlite`
 - `webpki-roots`
 
 ## Additional files
