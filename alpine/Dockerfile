@@ -5,7 +5,7 @@ ARG SOURCE_FILE="https://github.com/hickory-dns/hickory-dns/archive/refs/tags/v$
 # wget https://github.com/hickory-dns/hickory-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
 ARG SOURCE_SHA256="b4f4b3ff1cbefd1023c6e2b96b3db237e051e4b6c3596cafb310da4901212e58"
 
-FROM alpine:3.21 AS build-env
+FROM alpine:3.23 AS build-env
 
 ARG VERSION
 ARG SOURCE_FILE
@@ -33,7 +33,7 @@ FROM debian:trixie-slim AS dns-root-data
 
 RUN apt update && apt install dns-root-data -y
 
-FROM alpine:3.21 AS runtime
+FROM alpine:3.23 AS runtime
 
 ARG VERSION
 ARG SOURCE_FILE
