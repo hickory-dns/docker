@@ -12,9 +12,7 @@ This is the [hickory-dns](https://github.com/hickory-dns/hickory-dns#readme) Doc
 - `ascii-art`
 - `blocklist`
 - `dnssec-ring`
-- `h3-ring`
 - `https-ring`
-- `quic-ring`
 - `resolver`
 - `recursor`
 - `rustls-platform-verifier`
