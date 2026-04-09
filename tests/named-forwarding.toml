@@ -18,6 +18,6 @@ zone_type = "External"
 ##   Tls and/or Https require features dns-over-tls and/or dns-over-https
 type = "forward"
 name_servers = [
-    { socket_addr = "1.1.1.1", connections = [{ protocol = { type = "udp" }}] },
-    { socket_addr = "1.0.0.1", connections = [{ protocol = { type = "tcp" }}] }
+    { ip = "1.1.1.1", connections = [{ protocol = { type = "udp" }}] },
+    { ip = "1.0.0.1", connections = [{ protocol = { type = "tcp" }}] }
 ]
