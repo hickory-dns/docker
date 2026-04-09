@@ -81,7 +81,7 @@ COPY --chmod=444 --from=dns-root-data /usr/share/dns/root.key /usr/share/dns/roo
 RUN set -eux; \
     hickory-dns --version; \
     hickory-dns --help; \
-    printf '[[zones]]\nzone = "."\nzone_type = "External"\n[zones.stores]\ntype = "forward"\nname_servers = [{ socket_addr = "1.1.1.1:53", protocol = "udp" },{ socket_addr = "1.0.0.1:53", protocol = "tcp" }]\n' > /tmp/named.toml; \
+    printf '[[zones]]\nzone = "."\nzone_type = "External"\n[zones.stores]\ntype = "forward"\nname_servers = [{ socket_addr = "1.1.1.1", connections = [{ protocol = { type = "udp" }}] },{ socket_addr = "1.0.0.1", connections = [{ protocol = { type = "tcp" }}] }]\n' > /tmp/named.toml; \
     hickory-dns --validate --config /tmp/named.toml; \
     nohup sh -c "hickory-dns --config /tmp/named.toml &"; \
     dig +short google.fr @127.0.0.1; \
