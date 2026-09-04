@@ -1,9 +1,9 @@
 # Minimum Rust version: https://github.com/hickory-dns/hickory-dns/blob/main/Cargo.toml "rust-version"
 
-ARG VERSION="0.26.0"
+ARG VERSION="0.26.2"
 ARG SOURCE_FILE="https://github.com/hickory-dns/hickory-dns/archive/refs/tags/v${VERSION}.tar.gz"
 # wget https://github.com/hickory-dns/hickory-dns/archive/refs/tags/v${VERSION}.tar.gz -O - | sha256sum
-ARG SOURCE_SHA256="53a374acd54ae7eed39802b179f4f542afbcefaa29420dbc9bac7d950e8c3622"
+ARG SOURCE_SHA256="22feb683f4eae7f96901f141f88c0e06969504c238482798d1a91231f0ae13bb"
 
 FROM alpine:3.23 AS build-env
 
